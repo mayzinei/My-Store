@@ -24,11 +24,12 @@ export default function ProductPage() {
 		});
 	};
 
-	const handleDelete = async (items: any) => {
-		await axios.delete("/product/api/" + items?.Id).then((res) => {
+	const handleDelete = async (item: any) => {
+		await axios.delete("/product/api/" + item?.Id).then((res) => {
 			console.log("Delete Response", res.data);
 			getProducts();
 		});
+		console.log(item);
 	};
 
 	return (
