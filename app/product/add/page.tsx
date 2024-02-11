@@ -10,13 +10,17 @@ import {
 	IonToolbar,
 } from "@ionic/react";
 import axios from "axios";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 export default function Page() {
 	const nameRef = useRef<HTMLIonInputElement>(null);
 	const buyPriceRef = useRef<HTMLIonInputElement>(null);
 	const sellPriceRef = useRef<HTMLIonInputElement>(null);
-	const handleSave = async () => {
+
+	// useEffect(() => {
+	// 	handleSave();
+	// }, [nameRef]);
+	const handleSave = async (e: any) => {
 		const formData = new FormData();
 		formData.append("name", nameRef.current!.value?.toString() || "");
 		formData.append("buyPrice", buyPriceRef.current!.value?.toString() || "");
