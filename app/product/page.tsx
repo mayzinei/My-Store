@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {
 	IonButton,
+	IonButtons,
 	IonContent,
 	IonHeader,
 	IonItem,
@@ -24,12 +25,20 @@ export default function ProductPage() {
 		});
 	};
 
-	const handleDelete = async (item: any) => {
-		await axios.delete("/product/api/" + item?.Id).then((res) => {
+	const handleDelete = async (Id: any) => {
+		const deletedId = await axios.delete("/product/api/" + Id).then((res) => {
 			console.log("Delete Response", res.data);
 			getProducts();
 		});
-		console.log(item);
+		console.log("Deleted Item : ", deletedId);
+	};
+
+	const handleView = (Id: any) => {
+		window.location.href = "/product/view/" + Id;
+	};
+
+	const handleEdit = (Id: any) => {
+		window.location.href = "/product/edit/" + Id;
 	};
 
 	return (
@@ -41,12 +50,19 @@ export default function ProductPage() {
 				{products?.map((item: any, index: number) => (
 					<IonItem key={index}>
 						{item?.Name}
-						<IonButton slot="end">
-							{" "}
-							<IonButton onClick={() => handleDelete(item)}>
+
+						<IonButtons slot="end">
+							<IonButton onClick={() => handleView(item.Id)}>
+								View
+							</IonButton>
+							<IonButton onClick={() => handleEdit(item.Id)}>
+								Edit
+							</IonButton>
+
+							<IonButton onClick={() => handleDelete(item.Id)}>
 								Delete
 							</IonButton>
-						</IonButton>
+						</IonButtons>
 					</IonItem>
 				))}
 			</IonContent>

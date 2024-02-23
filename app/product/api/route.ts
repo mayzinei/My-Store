@@ -37,3 +37,30 @@ export async function POST(req: NextRequest) {
 		});
 	}
 }
+
+export async function PATCH(req: NextRequest) {
+	const data = await req.formData();
+	const sql = `update products set Name = ?, BuyPrice = ?,SellPrice = ? where Id = ? `;
+
+	const values = [
+		data.get("name" || ""),
+		data.get("buyPrice" || ""),
+		data.get("sellPrice" || ""),
+		data.get("id" || ""),
+	];
+
+	try {
+		await query(sql, values);
+		return NextResponse.json({
+			status: "Success",
+			message: "Successfully Updated",
+		});
+	} catch (error) {
+		console.error("Error : ", error);
+		return NextResponse.json({
+			status: "error",
+			message: "Error processing update",
+			error,
+		});
+	}
+}
